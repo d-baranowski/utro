@@ -20,7 +20,7 @@ async function seed() {
   }
 
   const adminUser = await db.insert(userTable).values({
-    email: "admin@oscatel.net",
+    email: "admin@email.net",
     emailVerified: new Date(),
     passwordHash: hash,
     passwordSetAt: new Date(),

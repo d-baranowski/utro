@@ -27,10 +27,10 @@ export const shadTheme = (mode: 'light' | 'dark') => {
         main: amber['900'],
       },
       divider: isDarkMode ? grey[800] : grey[300],
-      background: {
-        default: '#FF0000', // Default page background
-        paper: '#0000ff',   // Background for Paper components
-      },
+      // background: {
+      //   default: '#FF0000', // Default page background
+      //   paper: '#0000ff',   // Background for Paper components
+      // },
     },
     shape: {
       borderRadius: 4,
