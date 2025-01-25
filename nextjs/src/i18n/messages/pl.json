@@ -1,0 +1,10 @@
+{
+  "organisation": {
+    "setup": {
+      "welcome": "Witaj",
+      "question": "Wyglada na to ze nie nalezysz do zadnej organizacji. Czy chcesz ja stworzyc?",
+      "createBtn": "Stworz Organizacje",
+      "joinBtn": "Dolacz do Organizacji"
+    }
+  }
+}

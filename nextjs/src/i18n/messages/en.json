@@ -1,0 +1,10 @@
+{
+  "organisation": {
+    "setup": {
+      "welcome": "Welcome",
+      "question": "Looks like you don't belong to any organizations yet. Would you like to create one?",
+      "createBtn": "Create Organization",
+      "joinBtn": "Join Organization"
+    }
+  }
+}

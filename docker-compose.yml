@@ -1,0 +1,43 @@
+
+services:
+
+  postgres:
+    container_name: utro-postgres
+    build:
+      dockerfile: ./docker/postgres/Dockerfile
+    command: [
+      "postgres",
+      "-c", "log_destination=stderr",
+      #"-c", "shared_preload_libraries=pg_stat_statements,pg_cron,powa,pg_stat_kcache,pg_qualstats",
+      "-c", "shared_preload_libraries=pg_cron",
+      #"-c", "pg_stat_statements.max=10000",
+      #"-c", "pg_stat_statements.track=all",
+      "-c", "wal_level=logical",
+      "-c", "max_wal_senders=10",
+      "-c", "max_replication_slots=10",
+      "-c", "cron.database_name=data_gateway",
+    ]
+    ports:
+      - "5432:5432"
+    restart: always
+    shm_size: 4g
+    volumes:
+      - ./docker/postgres/initdb.d:/docker-entrypoint-initdb.d:ro
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+networks:
+  default:
+    name: utro
+    driver: bridge
+    external: false
+
+volumes:
+  postgres_data:

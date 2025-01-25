@@ -1,0 +1,11 @@
+.ps-sidebar-root.ps-collapsed .ps-sidebar-container .ps-menu-root {
+    transition-duration: 11000ms;
+}
+
+.ps-sidebar-root {
+    transition-duration: 0s, 0s, 0s, 0.2s !important;
+}
+
+.ps-sidebar-root {
+    border-right-width: 0 !important;
+}

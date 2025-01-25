@@ -1,0 +1,1 @@
+export const alignCheckboxSx = { height: '56px', marginTop: '7px' };
