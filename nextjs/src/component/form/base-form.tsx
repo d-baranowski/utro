@@ -34,8 +34,8 @@ interface Props<T extends FieldValues> {
   afterSubmit?: () => void
   onCancel?: () => void
   returnPath?: string
-  invalidateList: () => Promise<void>;
-  invalidateById: (props: { id: string}) => Promise<void>;
+  invalidateList?: () => Promise<void>;
+  invalidateById?: (props: { id: string}) => Promise<void>;
   validationResolver: Resolver<T>
   mutationHook: (props: { onSuccess?: () => void }) => MutationHookReturn<T>
   children: (props: FormChildProps<T>) => React.ReactNode;
@@ -52,13 +52,15 @@ function BaseForm<T extends FieldValues>(props: Props<T>) {
   const {mutateAsync: save, error} = props.mutationHook({
     onSuccess: () => {
       toast.success("Saved successfully")
+      if(props.invalidateList){
       props.invalidateList().catch((err) => {
         errorLog({
           error: err,
           msg: "Failed to invalidate list",
         })
       });
-      if (props.initialValues?.id) {
+      }
+      if (props.initialValues?.id && props.invalidateById) {
         props.invalidateById({id: props.initialValues.id}).catch((err) => {
           errorLog({
             error: err,

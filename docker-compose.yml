@@ -1,6 +1,4 @@
-
 services:
-
   postgres:
     container_name: utro-postgres
     build:
@@ -8,10 +6,7 @@ services:
     command: [
       "postgres",
       "-c", "log_destination=stderr",
-      #"-c", "shared_preload_libraries=pg_stat_statements,pg_cron,powa,pg_stat_kcache,pg_qualstats",
       "-c", "shared_preload_libraries=pg_cron",
-      #"-c", "pg_stat_statements.max=10000",
-      #"-c", "pg_stat_statements.track=all",
       "-c", "wal_level=logical",
       "-c", "max_wal_senders=10",
       "-c", "max_replication_slots=10",
@@ -32,12 +27,26 @@ services:
       interval: 2s
       timeout: 1s
       retries: 10
-
+  pgadmin:
+    container_name: utro-pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@email.net
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - default
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 networks:
   default:
     name: utro
     driver: bridge
     external: false
-
 volumes:
   postgres_data:
+  pgadmin_data:
