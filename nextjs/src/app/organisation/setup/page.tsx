@@ -1,9 +1,12 @@
+"use client"
 import React from 'react';
 import {useTranslations} from "next-intl";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";
+import {getMessages} from 'next-intl/server';
+import { useRouter } from 'next/navigation';
 
 interface Props {
 
@@ -11,6 +14,7 @@ interface Props {
 
 const Page: React.FunctionComponent<Props> = function Page(props) {
   const t = useTranslations('organisation.setup')
+  const router = useRouter()
   return (
     <div>
       <Card sx={{ padding: 1 }}>
@@ -25,7 +29,7 @@ const Page: React.FunctionComponent<Props> = function Page(props) {
               fullWidth
               variant={"contained"}
               color={"primary"}
-              // onClick={() => {}}
+              onClick={() => {router.push('/organisation/setup/create')}}
               endIcon={<span>🚀</span>}
             >
               {t('createBtn')}
@@ -45,6 +49,6 @@ const Page: React.FunctionComponent<Props> = function Page(props) {
 
     </div>
   );
-};
+}
 
-export default Page;
+  export default Page;

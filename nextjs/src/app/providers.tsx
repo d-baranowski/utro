@@ -5,6 +5,7 @@ import ThemeProvider from "~/theme";
 import {SidebarProvider} from "~/component/sidebar/context";
 import ConfirmProvider from "~/component/confirm-provider";
 import {TRPCReactProvider} from "~/rpc/rq-client";
+import I18Provider from "~/i18n/i18n-provider";
 
 
 export interface ProvidersProps {
@@ -19,7 +20,9 @@ export async function Providers({children}: ProvidersProps) {
           <ConfirmProvider>
             <SessionProvider>
               <SidebarProvider>
+                <I18Provider>
                 {children}
+                </I18Provider>
               </SidebarProvider>
             </SessionProvider>
           </ConfirmProvider>

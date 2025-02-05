@@ -7,6 +7,7 @@ import BooleanFe from "~/component/form/elements/boolean-fe";
 import NumberFe from "~/component/form/elements/number-fe";
 import BaseForm from "~/component/form/base-form";
 import {trpc} from "~/rpc/rq-client";
+import Button from "@mui/material/Button";
 
 
 interface Props {
@@ -19,18 +20,25 @@ interface Props {
 const Form: React.FC<Props> = (props) => {
   const utils = trpc.useUtils();
 
+  const {data, isLoading} = trpc.organisation.getMyOrganisations.useQuery(undefined, {});
+
+  const [state, setState] = React.useState<any>({});
+
   return <BaseForm<Organisation>
     initialValues={props.initialValues || null}
     returnPath={props.returnPath}
-    invalidateList={utils.organisation.findAll.invalidate}
-    invalidateById={utils.organisation.findById.invalidate}
     validationResolver={zodResolver(props?.initialValues?.id ? updateSchema : insertSchema)}
-    mutationHook={trpc.organisation.save.useMutation}>
+    mutationHook={trpc.organisation.create.useMutation}>
     {({methods}) => {
       return (<>
-        <StringFe name={"name"} xs={12} control={methods.control}/>
-        <NumberFe name={"maxCTR"} xs={12} control={methods.control}/>
-        <BooleanFe name={"active"} xs={12} control={methods.control}/>
+        <StringFe name={"displayName"} xs={12} control={methods.control}/>
+        <StringFe name={"legalName"} xs={12} control={methods.control}/>
+        <Button onClick={() => {
+            setState(methods.formState.errors)
+        }}>Omg ERrors</Button>
+
+        <code>{ JSON.stringify(state) }</code>
+  
       </>)
     }}
   </BaseForm>

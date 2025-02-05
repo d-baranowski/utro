@@ -10,7 +10,7 @@ export const orgUserRoleEnum = pgEnum("orgUserRole", ["OWNER", "EMPLOYEE"]);
 
 export const organisationTable = pgTable("organisation", {
   id: appId(),
-  name: text("displayName").unique().notNull(),
+  displayName: text("displayName").unique().notNull(),
   legalName: text("legalName").notNull(),
   ...timestamps(),
 });
@@ -29,8 +29,8 @@ export const organisationUserTable = pgTable("organisationUser", {
   ]
 );
 
-export const insertSchema = createInsertSchema(organisationTable).omit({id: true, createdAt: true})
-export const updateSchema = createUpdateSchema(organisationTable).omit({createdAt: true})
+export const insertSchema = createInsertSchema(organisationTable, { displayName: z.string().min(5).max(200) }).omit({id: true, createdAt: true})
+export const updateSchema = createUpdateSchema(organisationTable).omit({createdAt: true, updatedAt: true})
 export const selectSchema = createSelectSchema(organisationTable)
 
 export const organisationRelations = relations(organisationTable, ({many}) => ({

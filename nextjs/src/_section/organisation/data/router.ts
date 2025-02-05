@@ -7,7 +7,7 @@ import {apiError} from "@log";
 const organisationRouter = router({
   create: authedProcedure
     .input(insertSchema)
-    .mutation(async ({ctx, input}) => {
+    .mutation(async ({ctx, input}) => {      
       return await db.transaction(async (tx) => {
         const [resp, err] = await goCatch(tx.insert(organisationTable).values(input).returning());
         if (err) {
@@ -32,10 +32,17 @@ const organisationRouter = router({
           })
         }
 
+        if(!ctx.dbUser?.id){
+          return apiError({
+            msg: "User not present in context",
+            id: "ORG_CREATE_000",
+          })
+        }
+
         await tx.insert(organisationUserTable)
           .values({
             orgId: newOrg.id,
-            userId: ctx.user.id,
+            userId: ctx.dbUser.id,
             role: "OWNER", // Enum value
           });
 
